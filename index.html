@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Kaler 个人工具站</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 30px 20px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      flex: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      align-content: start;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px 25px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.6));
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #f1f5f9;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+    }
+
+    .card .status {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .status.available {
+      background: #22c55e30;
+      color: #4ade80;
+      border: 1px solid #22c55e70;
+    }
+
+    .status.coming {
+      background: #facc1530;
+      color: #facc15;
+      border: 1px solid #facc1570;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #64748b;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 20px;
+    }
+
+    footer a {
+      color: #a78bfa;
+      text-decoration: none;
+    }
+
+    /* 弹出提示框 */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #f1f5f9;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      border: 1px solid #334155;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    /* 响应式 */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧰 Kaler 个人工具站</h1>
+    <p>一个不断成长的数字工具箱</p>
+  </header>
+
+  <div class="container">
+    <!-- AI 创意工具：已上线 -->
+    <div class="card" onclick="window.open('https://my-draw-app.vercel.app/', '_blank')">
+      <div class="card-icon">🎨</div>
+      <h2>AI 绘图</h2>
+      <p>Seedream 4.5 驱动的智能绘画工具，支持文生图、图生图与高清输出。</p>
+      <span class="status available">已上线</span>
+    </div>
+
+    <!-- 图像处理：待定 -->
+    <div class="card" onclick="showToast()">
+      <div class="card-icon">🖼️</div>
+      <h2>图像处理</h2>
+      <p>图片压缩、格式转换、尺寸调整等实用工具合集。</p>
+      <span class="status coming">即将推出</span>
+    </div>
+
+    <!-- 文本工具：待定 -->
+    <div class="card" onclick="showToast()">
+      <div class="card-icon">📝</div>
+      <h2>文本工具</h2>
+      <p>文本加密、差异对比、字数统计、Markdown 预览等。</p>
+      <span class="status coming">即将推出</span>
+    </div>
+
+    <!-- 开发辅助：待定 -->
+    <div class="card" onclick="showToast()">
+      <div class="card-icon">🛠️</div>
+      <h2>开发辅助</h2>
+      <p>JSON 格式化、Base64 编解码、正则测试等开发者常用工具。</p>
+      <span class="status coming">即将推出</span>
+    </div>
+
+    <!-- 娱乐休闲：待定 -->
+    <div class="card" onclick="showToast()">
+      <div class="card-icon">🎮</div>
+      <h2>娱乐休闲</h2>
+      <p>小游戏、随机数生成、抽签、占卜等轻量趣味应用。</p>
+      <span class="status coming">即将推出</span>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Kaler · 个人学习与数字劳动实践项目 
+  </footer>
+
+  <!-- 提示浮层 -->
+  <div id="toast" class="toast">⏳ 工具正在开发中，敬请期待～</div>
+
+  <script>
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    }
+  </script>
+</body>
+</html>
